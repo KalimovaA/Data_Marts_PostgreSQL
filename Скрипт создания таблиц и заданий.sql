@@ -2,19 +2,19 @@
 create table DM.DM_ACCOUNT_TURNOVER_F (
 	on_date				date,
 	account_rk			numeric,
-	credit_amount		numeric (23,8),
-	credit_amount_rub	numeric (23,8),
-	debet_amount		numeric (23,8),
-	debet_amount_rub	numeric (23,8)
+	credit_amount			numeric (23,8),
+	credit_amount_rub		numeric (23,8),
+	debet_amount			numeric (23,8),
+	debet_amount_rub		numeric (23,8)
 );
 
 select * from DM.DM_ACCOUNT_TURNOVER_F order by account_rk ;
 
 --drop table DM.DM_F101_ROUND_F;
 create table DM.DM_F101_ROUND_F (
-	FROM_DATE			date,
-	TO_DATE				date,
-	CHAPTER				char (1),
+	FROM_DATE		date,
+	TO_DATE			date,
+	CHAPTER			char (1),
 	LEDGER_ACCOUNT		char (5),
 	CHARACTERISTIC		char (1),
 	BALANCE_IN_RUB		numeric (23,8),
@@ -47,14 +47,14 @@ select * from dm.dm_f101_round_f order by ledger_account;
 
 --drop table DM.LG_MESSAGES;
 create table DM.LG_MESSAGES ( 	
-	record_id			int not null,
-	date_time			timestamp not null,		
-	pid					int not null,
-	message				varchar not null,
+	record_id		int not null,
+	date_time		timestamp not null,		
+	pid			int not null,
+	message			varchar not null,
 	message_type		int not null,
-	usename				varchar, 
-	datname				varchar, 
-	client_addr			varchar,
+	usename			varchar, 
+	datname			varchar, 
+	client_addr		varchar,
 	application_name	varchar,
 	backend_start		timestamp,
 	constraint lg_messages_pk primary key (record_id)
@@ -62,10 +62,10 @@ create table DM.LG_MESSAGES (
 
 select * from DM.LG_MESSAGES;
 
--- Создание последовательности для логов
+-- РЎРѕР·РґР°РЅРёРµ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚Рё РґР»СЏ Р»РѕРіРѕРІ
 create sequence dm.seq_lg_messages start 1;
 
--- Создание задания на вызов процедуры оборотов за январь 2018г.
+-- РЎРѕР·РґР°РЅРёРµ Р·Р°РґР°РЅРёСЏ РЅР° РІС‹Р·РѕРІ РїСЂРѕС†РµРґСѓСЂС‹ РѕР±РѕСЂРѕС‚РѕРІ Р·Р° СЏРЅРІР°СЂСЊ 2018Рі.
 DO $uniq_tAg$
 DECLARE
     jid integer;
@@ -120,7 +120,7 @@ INSERT INTO pgagent.pga_schedule(
 END
 $uniq_tAg$;
 
--- Создание задания на вызов процедуры 101-й формы
+-- РЎРѕР·РґР°РЅРёРµ Р·Р°РґР°РЅРёСЏ РЅР° РІС‹Р·РѕРІ РїСЂРѕС†РµРґСѓСЂС‹ 101-Р№ С„РѕСЂРјС‹
 DO $uniq_tAg$
 DECLARE
     jid integer;
@@ -166,6 +166,6 @@ $uniq_tAg$;
 
 call dm.fill_f101_round_f ('2018-01-31');
 
--- Просмотр отработавших заданий
+-- РџСЂРѕСЃРјРѕС‚СЂ РѕС‚СЂР°Р±РѕС‚Р°РІС€РёС… Р·Р°РґР°РЅРёР№
 select * from pgagent.pga_joblog
 order by 1 desc;
